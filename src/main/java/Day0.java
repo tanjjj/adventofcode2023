@@ -5,7 +5,7 @@ import java.util.List;
 public class Day0 implements DayX {
     @Override
     public void run() {
-        List<Integer> input = Parser.parseInput("dat0.txt");
+        List<Integer> input = Parser.parseInputAsInt("dat0.txt");
         //System.out.println(input);
 
         List<Integer> result = get2020(input);

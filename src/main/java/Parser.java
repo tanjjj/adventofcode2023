@@ -8,10 +8,13 @@ import java.util.List;
 
 public class Parser {
 
-    public static List<Integer> parseInput(String fileName) {
-        return convertStreamToList(getFileFromResourceAsStream(fileName));
+    public static List<Integer> parseInputAsInt(String fileName) {
+        return convertStreamToIntList(getFileFromResourceAsStream(fileName));
     }
 
+    public static List<String> parseInputAsString(String fileName) {
+        return convertStreamToStringList(getFileFromResourceAsStream(fileName));
+    }
 
     private static InputStream getFileFromResourceAsStream(String fileName) {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -24,7 +27,7 @@ public class Parser {
         }
     }
 
-    private static List<Integer> convertStreamToList(InputStream is) {
+    private static List<Integer> convertStreamToIntList(InputStream is) {
         List<Integer> result = new ArrayList<>();
         try (InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
              BufferedReader reader = new BufferedReader(streamReader)) {
@@ -32,6 +35,22 @@ public class Parser {
             String line;
             while ((line = reader.readLine()) != null) {
                 result.add(Integer.parseInt(line));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private static List<String> convertStreamToStringList(InputStream is) {
+        List<String> result = new ArrayList<>();
+        try (InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+             BufferedReader reader = new BufferedReader(streamReader)) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.add(line);
             }
 
         } catch (IOException e) {
