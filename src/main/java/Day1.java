@@ -23,12 +23,6 @@ public class Day1 implements DayX {
             }
         }
 
-/*        int sum = 0;
-        for(int i = 0; i < digits.size(); i++){
-            sum += (int) (digits.get(i) * Math.pow(10, digits.size() - 1 - i));
-        }
-        return sum;*/
-
         if (digits.size() >= 2) {
             return digits.get(0) * 10 + digits.get(digits.size() - 1);
         } else {

@@ -7,9 +7,11 @@ public class Main {
         //Day0B day0B = new Day0B();
         //day0B.run();
 
-        Day1 day1 = new Day1();
-        day1.run();
+        //Day1 day1 = new Day1();
+        //day1.run();
 
+        Day1B day1B = new Day1B();
+        day1B.run();
     }
 
 }
