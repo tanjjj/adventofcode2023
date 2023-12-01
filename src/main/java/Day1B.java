@@ -15,7 +15,6 @@ public class Day1B implements DayX {
     }
 
     private int getDigitFromString(String str) {
-        System.out.println(str);
         List<Integer> digits = new ArrayList<>();
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
@@ -24,21 +23,11 @@ public class Day1B implements DayX {
             } else {
                 int x = getDigitFromSubString(str.substring(i));
                 if (x > 0) {
-                    if (x == 1 || x == 2 | x == 6) {
-                        digits.add(x);
-                        //i += 2;
-                    } else if (x == 3 || x == 7 | x == 8) {
-                        digits.add(x);
-                        //i += 4;
-                    } else if (x == 4 || x == 5 | x == 9) {
-                        digits.add(x);
-                        //i += 3;
-                    }
+                    digits.add(x);
                 }
             }
         }
 
-        System.out.println(digits);
         if (digits.size() >= 2) {
             return digits.get(0) * 10 + digits.get(digits.size() - 1);
         } else {
