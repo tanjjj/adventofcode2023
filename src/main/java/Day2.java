@@ -40,7 +40,7 @@ public class Day2 implements DayX {
     }
 
     private Map<String, Integer> convertGame(String[] strs) {
-        return Arrays.stream(strs)//" 3 blue"
+        return Arrays.stream(strs)
                 .map(str -> str.split(" "))
                 .collect(Collectors.toMap(e -> e[2], e -> Integer.parseInt(e[1])));
     }
