@@ -4,9 +4,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 2
-// Determine which games would have been possible if the bag had been loaded with only
-// 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
-// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 public class Day2B implements DayX {
     @Override
     public void run() {
