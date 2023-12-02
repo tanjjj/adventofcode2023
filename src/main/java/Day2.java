@@ -12,8 +12,8 @@ public class Day2 implements DayX {
 
     @Override
     public void run() {
-        List<String> input = Parser.parseInputAsString("test.txt");
-        Map<Integer, List<String[]>> games = input
+        List<String> input = Parser.parseInputAsString("day2.txt");
+        Map<Integer, List<Map<String, Integer>>> games = input
                 .stream()
                 .collect(Collectors.toMap(this::getGameId, this::getGames));
 
@@ -31,26 +31,26 @@ public class Day2 implements DayX {
         return Integer.parseInt(str.split(":")[0].substring(5));
     }
 
-    private List<String[]> getGames(String str) {
+    private List<Map<String, Integer>> getGames(String str) {
         String game = str.split(":")[1];
         return Arrays.stream(game.split(";"))
                 .map(g -> g.split(","))
-                .collect(Collectors.toList());
-    }
-
-    // true if all game valid
-    private boolean validateGame(List<String[]> games) {
-        long impossibleGames = games.stream()
                 .map(this::convertGame)
-                .filter(this::isNotPossible)
-                .count();
-        return impossibleGames == 0;
+                .collect(Collectors.toList());
     }
 
     private Map<String, Integer> convertGame(String[] strs) {
         return Arrays.stream(strs)//" 3 blue"
                 .map(str -> str.split(" "))
                 .collect(Collectors.toMap(e -> e[2], e -> Integer.parseInt(e[1])));
+    }
+
+    // true if all game valid
+    private boolean validateGame(List<Map<String, Integer>> games) {
+        long impossibleGames = games.stream()
+                .filter(this::isNotPossible)
+                .count();
+        return impossibleGames == 0;
     }
 
     private boolean isNotPossible(Map<String, Integer> game) {
