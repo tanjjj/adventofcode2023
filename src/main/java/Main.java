@@ -19,8 +19,11 @@ public class Main {
 /*        Day2B day2B = new Day2B();
         day2B.run();*/
 
-        Day3 day3 = new Day3();
-        day3.run();
+/*        Day3 day3 = new Day3();
+        day3.run();*/
+
+        Day3B day3B = new Day3B();
+        day3B.run();
     }
 
 }
