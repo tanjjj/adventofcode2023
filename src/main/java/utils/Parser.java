@@ -1,3 +1,6 @@
+package utils;
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +20,7 @@ public class Parser {
     }
 
     private static InputStream getFileFromResourceAsStream(String fileName) {
-        ClassLoader classLoader = Main.class.getClassLoader();
+        ClassLoader classLoader = Parser.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
 
         if (inputStream == null) {
