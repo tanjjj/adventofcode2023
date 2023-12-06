@@ -140,7 +140,6 @@ public class Day5B implements DayX {
                 } else {
                     //         start 5                   + range 20
                     // sourceStart 1 + sourceRange 10
-                    long diffOfStart = start - sourceStart;
                     long newRange = sourceStart + sourceRange - start;
                     result.add(Arrays.asList(destination, newRange));
                     long newstart = start + newRange;
