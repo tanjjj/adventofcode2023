@@ -31,11 +31,12 @@ public class Main {
 /*        Day4B day4B = new Day4B();
         day4B.run();*/
 
-/*        Day5 day5 = new Day5();
-        day5.run();*/
+        Day5 day5 = new Day5();
+        day5.run();
 
-        Day5B day5B = new Day5B();
-        day5B.run();
+
+/*        Day5Brute brute = new Day5Brute();
+        brute.run();*/
     }
 
 }

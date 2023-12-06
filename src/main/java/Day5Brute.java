@@ -1,17 +1,20 @@
 import utils.Parser;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 5
-public class Day5 implements DayX {
-    private List<List<Long>> seedsToSoil = new ArrayList<>();
-    private List<List<Long>> soilToFertilizer = new ArrayList<>();
-    private List<List<Long>> fertilizerToWater = new ArrayList<>();
-    private List<List<Long>> waterToLight = new ArrayList<>();
-    private List<List<Long>> lightToTemp = new ArrayList<>();
-    private List<List<Long>> tempToHumidity = new ArrayList<>();
-    private List<List<Long>> humidityToLoc = new ArrayList<>();
+public class Day5Brute implements DayX {
+    private static List<List<Long>> seedsToSoil = new ArrayList<>();
+    private static List<List<Long>> soilToFertilizer = new ArrayList<>();
+    private static List<List<Long>> fertilizerToWater = new ArrayList<>();
+    private static List<List<Long>> waterToLight = new ArrayList<>();
+    private static List<List<Long>> lightToTemp = new ArrayList<>();
+    private static List<List<Long>> tempToHumidity = new ArrayList<>();
+    private static List<List<Long>> humidityToLoc = new ArrayList<>();
 
     @Override
     public void run() {
@@ -88,12 +91,21 @@ public class Day5 implements DayX {
             i++;
         }
 
+        long result = Long.MAX_VALUE;
+        int print = 0;
+        for(int index = 0; index < seeds.size(); index++){
+            long start = seeds.get(index);
+            index++;
+            long range = seeds.get(index);
+            System.out.println("seed " + start + " range " + range);
+            System.out.println("time " + LocalDateTime.now());
+            for (long s = 0; s < range; s++) {
+                long loc = getLoc(start + s);
+                result = Math.min(loc, result);
+            }
+            System.out.println(result);
+        }
 
-        Optional<Long> result = seeds.stream()
-                .map(this::getLoc)
-                .min(Long::compare);
-
-        System.out.println(result);
     }
 
     private List<Long> getSeeds(String str) {
@@ -130,7 +142,7 @@ public class Day5 implements DayX {
 
         long water = fertilizer;
         for (List<Long> f2w : fertilizerToWater) {
-            if (f2w.get(1) <= fertilizer && fertilizer < f2w.get(1) + f2w.get(2)) {
+            if (f2w.get(1) <= fertilizer && fertilizer <= f2w.get(1) + f2w.get(2)) {
                 water = f2w.get(0) + (fertilizer - f2w.get(1));
             }
         }
