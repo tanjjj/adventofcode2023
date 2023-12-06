@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 // 2023 puzzle 5
 public class Day5 implements DayX {
-    private List<List<Long>> seedsToSoil = new ArrayList<>();
-    private List<List<Long>> soilToFertilizer = new ArrayList<>();
-    private List<List<Long>> fertilizerToWater = new ArrayList<>();
-    private List<List<Long>> waterToLight = new ArrayList<>();
-    private List<List<Long>> lightToTemp = new ArrayList<>();
-    private List<List<Long>> tempToHumidity = new ArrayList<>();
-    private List<List<Long>> humidityToLoc = new ArrayList<>();
+    private final List<List<Long>> seedsToSoil = new ArrayList<>();
+    private final List<List<Long>> soilToFertilizer = new ArrayList<>();
+    private final List<List<Long>> fertilizerToWater = new ArrayList<>();
+    private final List<List<Long>> waterToLight = new ArrayList<>();
+    private final List<List<Long>> lightToTemp = new ArrayList<>();
+    private final List<List<Long>> tempToHumidity = new ArrayList<>();
+    private final List<List<Long>> humidityToLoc = new ArrayList<>();
 
     @Override
     public void run() {

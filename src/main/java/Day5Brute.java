@@ -8,13 +8,13 @@ import java.util.stream.Collectors;
 
 // 2023 puzzle 5
 public class Day5Brute implements DayX {
-    private static List<List<Long>> seedsToSoil = new ArrayList<>();
-    private static List<List<Long>> soilToFertilizer = new ArrayList<>();
-    private static List<List<Long>> fertilizerToWater = new ArrayList<>();
-    private static List<List<Long>> waterToLight = new ArrayList<>();
-    private static List<List<Long>> lightToTemp = new ArrayList<>();
-    private static List<List<Long>> tempToHumidity = new ArrayList<>();
-    private static List<List<Long>> humidityToLoc = new ArrayList<>();
+    private static final List<List<Long>> seedsToSoil = new ArrayList<>();
+    private static final List<List<Long>> soilToFertilizer = new ArrayList<>();
+    private static final List<List<Long>> fertilizerToWater = new ArrayList<>();
+    private static final List<List<Long>> waterToLight = new ArrayList<>();
+    private static final List<List<Long>> lightToTemp = new ArrayList<>();
+    private static final List<List<Long>> tempToHumidity = new ArrayList<>();
+    private static final List<List<Long>> humidityToLoc = new ArrayList<>();
 
     @Override
     public void run() {
@@ -92,7 +92,6 @@ public class Day5Brute implements DayX {
         }
 
         long result = Long.MAX_VALUE;
-        int print = 0;
         for(int index = 0; index < seeds.size(); index++){
             long start = seeds.get(index);
             index++;
