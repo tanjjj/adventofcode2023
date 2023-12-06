@@ -2,12 +2,11 @@ import utils.Coordinate;
 import utils.Parser;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 // 2023 puzzle 3
 public class Day3B implements DayX {
-    private Map<Coordinate, Character> map = new HashMap<>();
-    private Map<Coordinate, Integer> numbers = new HashMap<>();
+    private final Map<Coordinate, Character> map = new HashMap<>();
+    private final Map<Coordinate, Integer> numbers = new HashMap<>();
 
     @Override
     public void run() {
@@ -45,9 +44,8 @@ public class Day3B implements DayX {
             }
         }
 
-        int sum = result.entrySet().stream()
-                .filter(e -> e.getValue().size() >= 2)
-                .map(e -> e.getValue())
+        int sum = result.values().stream()
+                .filter(coordinates -> coordinates.size() >= 2)
                 .map(v -> {
                     List<Coordinate> l = new ArrayList<>(v);
                     return numbers.get(l.get(0)) * numbers.get(l.get(1));

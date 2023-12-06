@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 // 2023 puzzle 3
 // for each number found, validate if adjacent chars have symbol
 // x -1, x + 1, y -1, y + 1
 public class Day3 implements DayX {
-    private Map<Coordinate, Character> map = new HashMap<>();
+    private final Map<Coordinate, Character> map = new HashMap<>();
 
     @Override
     public void run() {

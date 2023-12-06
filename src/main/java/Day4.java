@@ -1,7 +1,7 @@
-import utils.Coordinate;
 import utils.Parser;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 4
