@@ -18,7 +18,7 @@ public class Day6 implements DayX {
                 .map(str -> str.startsWith("Distance") ? null : Integer.parseInt(str))
                 .collect(Collectors.toList());
 
-        int result = 1;
+        long result = 1;
         for (int i = 1; i < times.size(); i++) {
             result = result * getNumberOfSolutions(times.get(i), distances.get(i));
         }
@@ -26,22 +26,22 @@ public class Day6 implements DayX {
         System.out.println(result);
     }
 
-    private int getNumberOfSolutions(int time, int distance) {
+    public static long getNumberOfSolutions(long time, long distance) {
         // x + (t-x) * x > distance
         // 12 - 44 = 33
         //37 - 60 = 24
         // 19-58 = 40
         //20-73= 54
-        int max = getMaxSpeed(0, time, time, distance);
+        long max = getMaxSpeed(0, time, time, distance);
         System.out.println("time " + time + " max " + max);
-        int min = getMinSpeed(0, time, time, distance, Integer.MIN_VALUE);
+        long min = getMinSpeed(0, time, time, distance, Integer.MIN_VALUE);
         System.out.println("time " + time + " min " + min);
         return max - min + 1;
     }
 
     // speed = time to accelerate
-    private int getMaxSpeed(int mintime, int maxtime, int totaltime, int distance) {
-        int timeToAcc = (maxtime - mintime) / 2 + mintime;
+    public static long getMaxSpeed(long mintime, long maxtime, long totaltime, long distance) {
+        long timeToAcc = (maxtime - mintime) / 2 + mintime;
         if ((totaltime - timeToAcc) * timeToAcc > distance) {
             if (timeToAcc == maxtime || timeToAcc == mintime) {
                 return timeToAcc;
@@ -52,8 +52,8 @@ public class Day6 implements DayX {
         }
     }
 
-    private int getMinSpeed(int mintime, int maxtime, int totaltime, int distance, int minSpeed) {
-        int timeToAcc = (maxtime - mintime) / 2 + mintime;
+    public static long getMinSpeed(long mintime, long maxtime, long totaltime, long distance, long minSpeed) {
+        long timeToAcc = (maxtime - mintime) / 2 + mintime;
         if ((totaltime - timeToAcc) * timeToAcc > distance) {
             return getMinSpeed(mintime, timeToAcc, totaltime, distance, timeToAcc);
         } else {
@@ -63,6 +63,4 @@ public class Day6 implements DayX {
             return getMinSpeed(timeToAcc, maxtime, totaltime, distance, minSpeed);
         }
     }
-
-
 }
