@@ -32,10 +32,10 @@ public class Day6 implements DayX {
         //37 - 60 = 24
         // 19-58 = 40
         //20-73= 54
-
         int max = getMaxSpeed(0, time, time, distance);
         System.out.println("time " + time + " max " + max);
         int min = getMinSpeed(0, time, time, distance, Integer.MIN_VALUE);
+        System.out.println("time " + time + " min " + min);
         return max - min + 1;
     }
 
@@ -43,7 +43,7 @@ public class Day6 implements DayX {
     private int getMaxSpeed(int mintime, int maxtime, int totaltime, int distance) {
         int timeToAcc = (maxtime - mintime) / 2 + mintime;
         if ((totaltime - timeToAcc) * timeToAcc > distance) {
-            if(timeToAcc == maxtime || timeToAcc == mintime){
+            if (timeToAcc == maxtime || timeToAcc == mintime) {
                 return timeToAcc;
             }
             return getMaxSpeed(timeToAcc, maxtime, totaltime, distance);
@@ -57,8 +57,8 @@ public class Day6 implements DayX {
         if ((totaltime - timeToAcc) * timeToAcc > distance) {
             return getMinSpeed(mintime, timeToAcc, totaltime, distance, timeToAcc);
         } else {
-            if(timeToAcc == maxtime || timeToAcc == mintime){
-                return timeToAcc;
+            if (timeToAcc == maxtime || timeToAcc == mintime) {
+                return minSpeed;
             }
             return getMinSpeed(timeToAcc, maxtime, totaltime, distance, minSpeed);
         }
