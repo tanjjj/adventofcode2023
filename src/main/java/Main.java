@@ -49,8 +49,11 @@ public class Main {
 /*        Day7 day7 = new Day7();
         day7.run();*/
 
-        Day7B day7B = new Day7B();
-        day7B.run();
+/*        Day7B day7B = new Day7B();
+        day7B.run();*/
+
+        Day8 day8 = new Day8();
+        day8.run();
     }
 
 }
