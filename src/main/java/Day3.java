@@ -1,4 +1,5 @@
 import utils.Coordinate;
+import utils.MapHelper;
 import utils.Parser;
 
 import java.util.ArrayList;
@@ -10,12 +11,12 @@ import java.util.Map;
 // for each number found, validate if adjacent chars have symbol
 // x -1, x + 1, y -1, y + 1
 public class Day3 implements DayX {
-    private final Map<Coordinate, Character> map = new HashMap<>();
+    private Map<Coordinate, Character> map;
 
     @Override
     public void run() {
         List<String> input = Parser.parseInputAsString("day3.txt");
-        generateMap(input);
+        map = MapHelper.generateMap(input);
 
         List<Integer> result = new ArrayList<>();
         for (int y = 0; y < input.size(); y++) {
@@ -37,16 +38,6 @@ public class Day3 implements DayX {
 
         System.out.println(result);
         System.out.println(result.stream().mapToInt(Integer::intValue).sum());
-    }
-
-
-    private void generateMap(List<String> input) {
-        for (int y = 0; y < input.size(); y++) {
-            String str = input.get(y);
-            for (int x = 0; x < str.length(); x++) {
-                map.put(new Coordinate(x, y), str.charAt(x));
-            }
-        }
     }
 
     private boolean hasAdjacentSymbol(Coordinate coord) {

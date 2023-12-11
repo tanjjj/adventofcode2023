@@ -1,8 +1,8 @@
 public class Main {
 
     public static void main(String[] args) {
-        Day9B day9 = new Day9B();
-        day9.run();
+        Day11 day11 = new Day11();
+        day11.run();
     }
 
 }
