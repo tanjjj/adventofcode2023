@@ -1,3 +1,3 @@
 public interface DayX {
-    void run();
+    void run() throws Exception;
 }
