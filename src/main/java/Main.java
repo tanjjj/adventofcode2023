@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        Day11 day11 = new Day11();
+        Day11B day11 = new Day11B();
         day11.run();
     }
 
