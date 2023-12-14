@@ -8,7 +8,7 @@ public class Day13 implements DayX {
 
     @Override
     public void run() {
-        List<String> input = Parser.parseInputAsString("test.txt");
+        List<String> input = Parser.parseInputAsString("day13.txt");
 
         List<List<String>> patterns = getPatterns(input);
         int result = 0;
@@ -36,13 +36,13 @@ public class Day13 implements DayX {
     }
 
     private List<Integer> getLinesOnTheLeft(List<String> pattern) {
-        List<Integer> indexOfLeftVerticalLine = new ArrayList<>();
+        List<Integer> numberOfLInesOnTheLeft = new ArrayList<>();
         for (int i = 0; i < pattern.get(0).length() - 1; i++) {
             if (isVerticalReflection(i, pattern)) {
-                indexOfLeftVerticalLine.add(i + 1);
+                numberOfLInesOnTheLeft.add(i + 1);
             }
         }
-        return indexOfLeftVerticalLine;
+        return numberOfLInesOnTheLeft;
     }
 
     private boolean isVerticalReflection(int i, List<String> pattern) {
@@ -63,6 +63,27 @@ public class Day13 implements DayX {
     }
 
     private List<Integer> getLinesAbove(List<String> pattern) {
-        return new ArrayList<>();
+        List<Integer> numberOfLinesAbove = new ArrayList<>();
+        for (int i = 0; i < pattern.size() - 1; i++) {
+            if (isHorizontalReflection(i, pattern)) {
+                numberOfLinesAbove.add(i + 1);
+            }
+        }
+        return numberOfLinesAbove;
     }
+
+    private boolean isHorizontalReflection(int i, List<String> pattern) {
+        int maxIndex = pattern.size();
+        int upIndex = i;
+        int downIndex = i + 1;
+        while (upIndex >= 0 && downIndex < maxIndex) {
+            if (!pattern.get(upIndex).equals(pattern.get(downIndex))) {
+                return false;
+            }
+            upIndex--;
+            downIndex++;
+        }
+        return true;
+    }
+
 }
