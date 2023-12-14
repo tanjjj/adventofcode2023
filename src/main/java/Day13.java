@@ -3,7 +3,7 @@ import utils.Parser;
 import java.util.ArrayList;
 import java.util.List;
 
-// 2023 puzzle 11
+// 2023 puzzle 13
 public class Day13 implements DayX {
 
     @Override
@@ -20,7 +20,7 @@ public class Day13 implements DayX {
         System.out.println(result);
     }
 
-    private List<List<String>> getPatterns(List<String> input) {
+    public static List<List<String>> getPatterns(List<String> input) {
         List<List<String>> patterns = new ArrayList<>();
         List<String> tmp = new ArrayList<>();
         for (String s : input) {
@@ -35,7 +35,7 @@ public class Day13 implements DayX {
         return patterns;
     }
 
-    private List<Integer> getLinesOnTheLeft(List<String> pattern) {
+    public static List<Integer> getLinesOnTheLeft(List<String> pattern) {
         List<Integer> numberOfLInesOnTheLeft = new ArrayList<>();
         for (int i = 0; i < pattern.get(0).length() - 1; i++) {
             if (isVerticalReflection(i, pattern)) {
@@ -45,7 +45,7 @@ public class Day13 implements DayX {
         return numberOfLInesOnTheLeft;
     }
 
-    private boolean isVerticalReflection(int i, List<String> pattern) {
+    public static boolean isVerticalReflection(int i, List<String> pattern) {
         int maxIndex = pattern.get(0).length();
         int leftIndex = i;
         int rightIndex = i + 1;
@@ -62,7 +62,7 @@ public class Day13 implements DayX {
         return true;
     }
 
-    private List<Integer> getLinesAbove(List<String> pattern) {
+    public static List<Integer> getLinesAbove(List<String> pattern) {
         List<Integer> numberOfLinesAbove = new ArrayList<>();
         for (int i = 0; i < pattern.size() - 1; i++) {
             if (isHorizontalReflection(i, pattern)) {
@@ -72,7 +72,7 @@ public class Day13 implements DayX {
         return numberOfLinesAbove;
     }
 
-    private boolean isHorizontalReflection(int i, List<String> pattern) {
+    public static boolean isHorizontalReflection(int i, List<String> pattern) {
         int maxIndex = pattern.size();
         int upIndex = i;
         int downIndex = i + 1;
