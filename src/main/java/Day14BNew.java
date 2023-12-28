@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// 2023 puzzle 14
+// 2023 puzzle 14 part 2 - array faster than coordinate
 public class Day14BNew implements DayX {
     @Override
     public void run() {
