@@ -5,17 +5,21 @@ import utils.Parser;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 // 2023 puzzle 14
 public class Day14BNew implements DayX {
     @Override
     public void run() {
         List<String> input = Parser.parseInputAsString("test.txt");
-        Map<Coordinate, Character> map = MapHelper.generateMap(input);
+        List<char[]> map = input.stream()
+                .map(String::toCharArray)
+                .collect(Collectors.toList());
+
         int maxX = input.get(0).length() - 1;
         int maxY = input.size() - 1;
 
-        int remainingCircles = 1;//1000000000;
+        int remainingCircles = 1000000000;
         while (remainingCircles > 0) {
             tiltNorth(maxX, maxY, map);
             remainingCircles--;
@@ -30,22 +34,23 @@ public class Day14BNew implements DayX {
         return tiltEast(maxX, maxY, tiltSouth(maxX, maxY, tiltWest(maxX, maxY, tiltNorth(maxX, maxY, map))));
     }*/
 
-    private void tiltNorth(int maxX, int maxY, Map<Coordinate, Character> map) {
+    private void tiltNorth(int maxX, int maxY, List<char[]> map) {
         for (int x = 0; x <= maxX; x++) {
             for (int y = 0; y <= maxY; y++) {
-                Coordinate coordinate = new Coordinate(x, y);
-                Character oldValue = map.get(coordinate);
+                char[] oldColumn = map.get(y);
+                char oldValue = oldColumn[x];
                 if (y == 0 || oldValue == '#' || oldValue == '.') {
                     continue;
                 }
 
                 // slide
                 int tmpY = y;
-                while (tmpY > 0 && map.get(new Coordinate(x, tmpY - 1)).equals('.')) {
+                while (tmpY > 0 && map.get(tmpY - 1)[x] == '.') {
                     tmpY--;
                 }
-                map.put(new Coordinate(x, y), '.');
-                map.put(new Coordinate(x, tmpY), oldValue);
+
+                map.get(y)[x] = '.';
+                map.get(tmpY)[x] = oldValue;
             }
 
         }
@@ -126,12 +131,12 @@ public class Day14BNew implements DayX {
         return newMap;
     }*/
 
-    private int calculateLoad(int maxX, int maxY, Map<Coordinate, Character> map) {
+    private int calculateLoad(int maxX, int maxY, List<char[]> map) {
         int result = 0;
         int load = maxY + 1;
         for (int y = 0; y <= maxY; y++) {
             for (int x = 0; x <= maxX; x++) {
-                if (map.getOrDefault(new Coordinate(x, y), ' ').equals('O')) {
+                if (map.get(y)[x] == 'O') {
                     result += load;
                 }
             }
