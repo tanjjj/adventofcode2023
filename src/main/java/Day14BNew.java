@@ -15,23 +15,22 @@ public class Day14BNew implements DayX {
         int maxX = input.get(0).length() - 1;
         int maxY = input.size() - 1;
 
-        int remainingCircles = 1000000000;
+        int remainingCircles = 1;//1000000000;
         while (remainingCircles > 0) {
             tiltNorth(maxX, maxY, map);
             remainingCircles--;
             System.out.println(remainingCircles);
         }
 
-        Map<Coordinate, Character> tmpMap = tiltNorth(maxX, maxY, map);
-        int result = calculateLoad(maxX, maxY, tmpMap);
-        System.out.println("result" + result);
+        int result = calculateLoad(maxX, maxY, map);
+        System.out.println("result " + result);
     }
 
 /*    private Map<Coordinate, Character> circle(int maxX, int maxY, Map<Coordinate, Character> map) {
         return tiltEast(maxX, maxY, tiltSouth(maxX, maxY, tiltWest(maxX, maxY, tiltNorth(maxX, maxY, map))));
     }*/
 
-    private Map<Coordinate, Character> tiltNorth(int maxX, int maxY, Map<Coordinate, Character> map) {
+    private void tiltNorth(int maxX, int maxY, Map<Coordinate, Character> map) {
         for (int x = 0; x <= maxX; x++) {
             for (int y = 0; y <= maxY; y++) {
                 Coordinate coordinate = new Coordinate(x, y);
@@ -50,8 +49,6 @@ public class Day14BNew implements DayX {
             }
 
         }
-
-        return map;
     }
 
     /*private Map<Coordinate, Character> tiltWest(int maxX, int maxY, Map<Coordinate, Character> map) {
