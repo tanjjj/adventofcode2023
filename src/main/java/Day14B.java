@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// 2023 puzzle 14
+// 2023 puzzle 14 part 2 - too slow, see Day14BNew
 public class Day14B implements DayX {
     @Override
     public void run() {

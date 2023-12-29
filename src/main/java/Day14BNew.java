@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// 2023 puzzle 14 part 2 - array faster than coordinate
+// 2023 puzzle 14 part 2 - array faster than coordinate. Key point: find the loop
 public class Day14BNew implements DayX {
     @Override
     public void run() {
