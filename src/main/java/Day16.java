@@ -1,6 +1,6 @@
 import utils.Coordinate;
 import utils.day16.Beam;
-import utils.day16.Direction;
+import utils.Direction;
 import utils.MapHelper;
 import utils.Parser;
 

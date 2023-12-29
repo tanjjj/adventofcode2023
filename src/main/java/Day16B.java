@@ -2,7 +2,7 @@ import utils.Coordinate;
 import utils.MapHelper;
 import utils.Parser;
 import utils.day16.Beam;
-import utils.day16.Direction;
+import utils.Direction;
 
 import java.util.ArrayList;
 import java.util.HashMap;

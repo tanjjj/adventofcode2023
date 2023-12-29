@@ -1,4 +1,4 @@
-package utils.day16;
+package utils;
 
 public enum Direction {
     UP,

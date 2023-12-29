@@ -1,6 +1,7 @@
 package utils.day16;
 
 import utils.Coordinate;
+import utils.Direction;
 
 public class Beam {
     public final Coordinate coordinate;
