@@ -40,27 +40,27 @@ public class Day6 implements DayX {
     }
 
     // speed = time to accelerate
-    public static long getMaxSpeed(long mintime, long maxtime, long totaltime, long distance) {
-        long timeToAcc = (maxtime - mintime) / 2 + mintime;
-        if ((totaltime - timeToAcc) * timeToAcc > distance) {
-            if (timeToAcc == maxtime || timeToAcc == mintime) {
+    public static long getMaxSpeed(long minTime, long maxTime, long totalTime, long distance) {
+        long timeToAcc = (maxTime - minTime) / 2 + minTime;
+        if ((totalTime - timeToAcc) * timeToAcc > distance) {
+            if (timeToAcc == maxTime || timeToAcc == minTime) {
                 return timeToAcc;
             }
-            return getMaxSpeed(timeToAcc, maxtime, totaltime, distance);
+            return getMaxSpeed(timeToAcc, maxTime, totalTime, distance);
         } else {
-            return getMaxSpeed(mintime, timeToAcc, totaltime, distance);
+            return getMaxSpeed(minTime, timeToAcc, totalTime, distance);
         }
     }
 
-    public static long getMinSpeed(long mintime, long maxtime, long totaltime, long distance, long minSpeed) {
-        long timeToAcc = (maxtime - mintime) / 2 + mintime;
-        if ((totaltime - timeToAcc) * timeToAcc > distance) {
-            return getMinSpeed(mintime, timeToAcc, totaltime, distance, timeToAcc);
+    public static long getMinSpeed(long minTime, long maxTime, long totalTime, long distance, long minSpeed) {
+        long timeToAcc = (maxTime - minTime) / 2 + minTime;
+        if ((totalTime - timeToAcc) * timeToAcc > distance) {
+            return getMinSpeed(minTime, timeToAcc, totalTime, distance, timeToAcc);
         } else {
-            if (timeToAcc == maxtime || timeToAcc == mintime) {
+            if (timeToAcc == maxTime || timeToAcc == minTime) {
                 return minSpeed;
             }
-            return getMinSpeed(timeToAcc, maxtime, totaltime, distance, minSpeed);
+            return getMinSpeed(timeToAcc, maxTime, totalTime, distance, minSpeed);
         }
     }
 }

@@ -1,8 +1,6 @@
 import utils.Parser;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // 2023 puzzle 6
 public class Day6B implements DayX {

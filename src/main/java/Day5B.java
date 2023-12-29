@@ -142,8 +142,8 @@ public class Day5B implements DayX {
                     // sourceStart 1 + sourceRange 10
                     long newRange = sourceStart + sourceRange - start;
                     result.add(Arrays.asList(destination, newRange));
-                    long newstart = start + newRange;
-                    return getDestinationRangesForAGivenRange(newstart, range - newRange, result, mappings);
+                    long newStart = start + newRange;
+                    return getDestinationRangesForAGivenRange(newStart, range - newRange, result, mappings);
                 }
             }
         }
