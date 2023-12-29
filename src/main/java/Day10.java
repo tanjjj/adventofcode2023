@@ -6,7 +6,7 @@ import java.util.*;
 
 // 2023 puzzle 10
 public class Day10 implements DayX {
-    private Map<Coordinate, Pipe> map = new HashMap<>();
+    private final Map<Coordinate, Pipe> map = new HashMap<>();
 
     @Override
     public void run() throws Exception {
