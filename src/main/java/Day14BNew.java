@@ -38,13 +38,13 @@ public class Day14BNew implements DayX {
         }
 
         int beforeLoop = history.indexOf(str);
-        String final_grid = history.get((1000000000 - beforeLoop) % (cycles + 1 - beforeLoop)
-                + beforeLoop);
+        int loopLength = cycles + 1 - beforeLoop;
+        String finalMap = history.get(beforeLoop + (1000000000 - beforeLoop) % loopLength);
 
         char[][] fMap = new char[maxY + 1][maxX + 1];
         for (int i = 0; i <= maxY; i++) {
-            fMap[i] = final_grid.substring(0, maxX + 1).toCharArray();
-            final_grid = final_grid.substring(maxX + 1);
+            fMap[i] = finalMap.substring(0, maxX + 1).toCharArray();
+            finalMap = finalMap.substring(maxX + 1);
         }
         System.out.println(calculateLoad(maxX, maxY, fMap));
     }
