@@ -1,7 +1,5 @@
 package utils.day7;
 
-import utils.Card2;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

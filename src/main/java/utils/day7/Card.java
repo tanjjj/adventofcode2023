@@ -1,4 +1,4 @@
-package utils;
+package utils.day7;
 
 import java.util.Arrays;
 import java.util.List;
