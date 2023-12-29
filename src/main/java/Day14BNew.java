@@ -21,7 +21,7 @@ public class Day14BNew implements DayX {
 
         List<String> history = new ArrayList<>();
         history.add(convertToString(map));
-        int cycles = 0;
+        int cycles = 1;
         String str = "";
         while (cycles < 300) {
             tiltNorth(maxX, maxY, map);
@@ -38,7 +38,7 @@ public class Day14BNew implements DayX {
         }
 
         int beforeLoop = history.indexOf(str);
-        int loopLength = cycles + 1 - beforeLoop;
+        int loopLength = cycles - beforeLoop;
         String finalMap = history.get(beforeLoop + (1000000000 - beforeLoop) % loopLength);
 
         char[][] fMap = new char[maxY + 1][maxX + 1];
