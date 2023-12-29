@@ -2,6 +2,8 @@ package utils.day15;
 
 import java.util.Objects;
 
+// warning: a lens is identified only by its label regardless of the focal length.
+// This is for the convenience of finding the lens in a list.
 public class Lens {
     public final String label;
     public int focalLength;
