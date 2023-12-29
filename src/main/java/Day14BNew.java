@@ -20,6 +20,7 @@ public class Day14BNew implements DayX {
         }
 
         List<String> history = new ArrayList<>();
+        // cycle 0
         history.add(convertToString(map));
         int cycles = 1;
         String str = "";
