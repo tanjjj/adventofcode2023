@@ -1,4 +1,4 @@
-import utils.Node;
+import utils.day8.Node;
 import utils.Parser;
 
 import java.util.ArrayList;

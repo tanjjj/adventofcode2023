@@ -1,4 +1,4 @@
-package utils;
+package utils.day8;
 
 public class Node {
     private final String left;
