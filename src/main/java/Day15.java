@@ -11,13 +11,13 @@ public class Day15 implements DayX {
         String input = Parser.parseInputAsString("day15.txt").get(0);
 
         List<Integer> results = Arrays.stream(input.split(","))
-                .map(this::getHashCode)
+                .map(Day15::getHashCode)
                 .collect(Collectors.toList());
 
         System.out.println(results.stream().mapToInt(Integer::intValue).sum());
     }
 
-    private int getHashCode(String str) {
+    public static int getHashCode(String str) {
         int result = 0;
         for (char ch : str.toCharArray()) {
             int ascii = Character.hashCode(ch);
