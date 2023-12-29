@@ -1,4 +1,4 @@
-import utils.Hand2;
+import utils.day7.Hand2;
 import utils.Parser;
 
 import java.util.List;

@@ -1,7 +1,6 @@
-import utils.Hand;
+import utils.day7.Hand;
 import utils.Parser;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
