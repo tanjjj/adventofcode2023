@@ -40,6 +40,7 @@ public class Day14BNew implements DayX {
 
         int beforeLoop = history.indexOf(str);
         int loopLength = cycles - beforeLoop;
+        // no. of cycles before loop starts + no. of cycles after loop starts
         String finalMap = history.get(beforeLoop + (1000000000 - beforeLoop) % loopLength);
 
         char[][] fMap = new char[maxY + 1][maxX + 1];
