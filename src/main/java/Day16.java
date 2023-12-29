@@ -34,9 +34,10 @@ public class Day16 implements DayX {
         System.out.println(energyMap.size());
     }
 
-    private List<Beam> nextStep(Coordinate current, Direction direction,
-                                Map<Coordinate, Character> map, Map<Coordinate, Boolean> energyMap,
-                                int maxX, int maxY, Map<Coordinate, List<Direction>> visited) throws Exception {
+    public static List<Beam> nextStep(Coordinate current, Direction direction,
+                                      Map<Coordinate, Character> map, Map<Coordinate, Boolean> energyMap,
+                                      int maxX, int maxY,
+                                      Map<Coordinate, List<Direction>> visited) throws Exception {
         if (current.x < 0 || current.y < 0 || current.x > maxX || current.y > maxY) {
             return new ArrayList<>();
         }
@@ -71,30 +72,30 @@ public class Day16 implements DayX {
             }
         } else if (currentCell == '/') {
             if (direction == Direction.RIGHT) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.UP),  Direction.UP));
+                return List.of(new Beam(getNextCoordinate(current, Direction.UP), Direction.UP));
             } else if (direction == Direction.LEFT) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.DOWN),  Direction.DOWN));
+                return List.of(new Beam(getNextCoordinate(current, Direction.DOWN), Direction.DOWN));
             } else if (direction == Direction.UP) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.RIGHT),  Direction.RIGHT));
+                return List.of(new Beam(getNextCoordinate(current, Direction.RIGHT), Direction.RIGHT));
             } else if (direction == Direction.DOWN) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.LEFT),  Direction.LEFT));
+                return List.of(new Beam(getNextCoordinate(current, Direction.LEFT), Direction.LEFT));
             }
         } else if (currentCell == '\\') {
             if (direction == Direction.RIGHT) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.DOWN),  Direction.DOWN));
+                return List.of(new Beam(getNextCoordinate(current, Direction.DOWN), Direction.DOWN));
             } else if (direction == Direction.LEFT) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.UP),  Direction.UP));
+                return List.of(new Beam(getNextCoordinate(current, Direction.UP), Direction.UP));
             } else if (direction == Direction.UP) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.LEFT),  Direction.LEFT));
+                return List.of(new Beam(getNextCoordinate(current, Direction.LEFT), Direction.LEFT));
             } else if (direction == Direction.DOWN) {
-                return List.of(new Beam(getNextCoordinate(current,  Direction.RIGHT),  Direction.RIGHT));
+                return List.of(new Beam(getNextCoordinate(current, Direction.RIGHT), Direction.RIGHT));
             }
         }
 
         return new ArrayList<>();
     }
 
-    private Coordinate getNextCoordinate(Coordinate current, Direction direction) throws Exception {
+    private static Coordinate getNextCoordinate(Coordinate current, Direction direction) throws Exception {
         switch (direction) {
             case UP:
                 return new Coordinate(current.x, current.y - 1);
