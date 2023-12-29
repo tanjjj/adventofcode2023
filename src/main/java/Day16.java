@@ -1,5 +1,6 @@
 import utils.Coordinate;
-import utils.Direction;
+import utils.day16.Beam;
+import utils.day16.Direction;
 import utils.MapHelper;
 import utils.Parser;
 
@@ -17,69 +18,80 @@ public class Day16 implements DayX {
         Map<Coordinate, Boolean> energyMap = new HashMap<>();
         Map<Coordinate, List<Direction>> visited = new HashMap<>();
         Coordinate start = new Coordinate(0, 0);
-        energyMap.put(start, true);
-        List<Direction> tmp = new ArrayList<>();
-        tmp.add(Direction.RIGHT);
-        visited.put(start, tmp);
-        nextStep(start, Direction.RIGHT, map, energyMap, input.get(0).length() - 1, input.size() - 1, visited);
+
+        List<Beam> beams = List.of(new Beam(start, Direction.RIGHT));
+        while (!beams.isEmpty()) {
+            List<Beam> tmp = new ArrayList<>();
+            for (Beam beam : beams) {
+                int maxX = input.get(0).length() - 1;
+                int maxY = input.size() - 1;
+                tmp.addAll(nextStep(beam.coordinate, beam.direction, map, energyMap, maxX, maxY, visited));
+            }
+            beams = tmp;
+        }
+
+
         System.out.println(energyMap.size());
     }
 
-    private void nextStep(Coordinate current, Direction direction,
-                          Map<Coordinate, Character> map, Map<Coordinate, Boolean> energyMap,
-                          int maxX, int maxY, Map<Coordinate, List<Direction>> visited) throws Exception {
+    private List<Beam> nextStep(Coordinate current, Direction direction,
+                                Map<Coordinate, Character> map, Map<Coordinate, Boolean> energyMap,
+                                int maxX, int maxY, Map<Coordinate, List<Direction>> visited) throws Exception {
+        if (current.x < 0 || current.y < 0 || current.x > maxX || current.y > maxY) {
+            return new ArrayList<>();
+        }
+
+        System.out.println(current + " " + direction);
         List<Direction> visitedList = visited.getOrDefault(current, new ArrayList<>());
+        if (visitedList.contains(direction)) {
+            return new ArrayList<>(); // already visited
+        }
         visitedList.add(direction);
         visited.put(current, visitedList);
-        Coordinate nextCoord = getNextCoordinate(current, direction);
-        if (nextCoord.x < 0 || nextCoord.y < 0 || nextCoord.x > maxX || nextCoord.y > maxY) {
-            return;
-        }
 
-        if (visited.getOrDefault(nextCoord, new ArrayList<>()).contains(direction)) {
-            return;
-        }
-
-        energyMap.put(nextCoord, true);
-        System.out.println(nextCoord);
-        Character nextCell = map.get(nextCoord);
-        if (nextCell == '.') {
-            nextStep(nextCoord, direction, map, energyMap, maxX, maxY, visited);
-        } else if (nextCell == '|') {
+        energyMap.put(current, true);
+        Character currentCell = map.get(current);
+        if (currentCell == '.') {
+            return List.of(new Beam(getNextCoordinate(current, direction), direction));
+        } else if (currentCell == '|') {
             if (direction == Direction.UP || direction == Direction.DOWN) {
-                nextStep(nextCoord, direction, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current, direction), direction));
             } else {
-                nextStep(nextCoord, Direction.UP, map, energyMap, maxX, maxY, visited);
-                nextStep(nextCoord, Direction.DOWN, map, energyMap, maxX, maxY, visited);
+                return List.of(
+                        new Beam(getNextCoordinate(current, Direction.UP), Direction.UP),
+                        new Beam(getNextCoordinate(current, Direction.DOWN), Direction.DOWN));
             }
-        } else if (nextCell == '-') {
+        } else if (currentCell == '-') {
             if (direction == Direction.LEFT || direction == Direction.RIGHT) {
-                nextStep(nextCoord, direction, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current, direction), direction));
             } else {
-                nextStep(nextCoord, Direction.LEFT, map, energyMap, maxX, maxY, visited);
-                nextStep(nextCoord, Direction.RIGHT, map, energyMap, maxX, maxY, visited);
+                return List.of(
+                        new Beam(getNextCoordinate(current, Direction.LEFT), Direction.LEFT),
+                        new Beam(getNextCoordinate(current, Direction.RIGHT), Direction.RIGHT));
             }
-        } else if (nextCell == '/') {
+        } else if (currentCell == '/') {
             if (direction == Direction.RIGHT) {
-                nextStep(nextCoord, Direction.UP, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.UP),  Direction.UP));
             } else if (direction == Direction.LEFT) {
-                nextStep(nextCoord, Direction.DOWN, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.DOWN),  Direction.DOWN));
             } else if (direction == Direction.UP) {
-                nextStep(nextCoord, Direction.RIGHT, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.RIGHT),  Direction.RIGHT));
             } else if (direction == Direction.DOWN) {
-                nextStep(nextCoord, Direction.LEFT, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.LEFT),  Direction.LEFT));
             }
-        } else if (nextCell == '\\') {
+        } else if (currentCell == '\\') {
             if (direction == Direction.RIGHT) {
-                nextStep(nextCoord, Direction.DOWN, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.DOWN),  Direction.DOWN));
             } else if (direction == Direction.LEFT) {
-                nextStep(nextCoord, Direction.UP, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.UP),  Direction.UP));
             } else if (direction == Direction.UP) {
-                nextStep(nextCoord, Direction.LEFT, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.LEFT),  Direction.LEFT));
             } else if (direction == Direction.DOWN) {
-                nextStep(nextCoord, Direction.RIGHT, map, energyMap, maxX, maxY, visited);
+                return List.of(new Beam(getNextCoordinate(current,  Direction.RIGHT),  Direction.RIGHT));
             }
         }
+
+        return new ArrayList<>();
     }
 
     private Coordinate getNextCoordinate(Coordinate current, Direction direction) throws Exception {
