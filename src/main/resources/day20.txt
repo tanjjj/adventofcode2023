@@ -56,3 +56,4 @@ broadcaster -> kt, pd, xv, rg
 %pf -> mf, jm
 %mx -> cl, pr
 &vn -> kj
+rx -> xx

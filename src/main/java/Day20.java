@@ -6,10 +6,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 20
+// note rx -> xx is added to the end of the input file to avoid NPE because rx is a dummy module type
 public class Day20 implements DayX {
     @Override
     public void run() {
-        List<String> input = Parser.parseInputAsString("test.txt");
+        List<String> input = Parser.parseInputAsString("day20.txt");
         Map<String, Module> modules = input.stream()
                 .map(this::convertToModule)
                 .collect(Collectors.toMap(m -> m.name, m -> m));
@@ -25,18 +26,23 @@ public class Day20 implements DayX {
         List<String> history = new ArrayList<>();
         int i = 0;
         String current = "";
-        while (i < 200) {
+        int low = 0;
+        int high = 0;
+        while (i < 1000) {
             Queue<QueueElement> queue = new LinkedList<>();
             queue.add(new QueueElement("broadcaster", "L"));
             current = "L" + process(queue, modules);
+            low += getLowPulses(current);
+            high += getHighPulses(current);
+            /*
             if (history.contains(current)) {
                 break;
-            }
+            }*/
             history.add(current);
             i++;
         }
 
-        int startOfLoop = history.indexOf(current);
+/*        int startOfLoop = history.indexOf(current);
         int loopLength = i - startOfLoop;
         int numberOfLoops = (1000 - startOfLoop) / loopLength;
 
@@ -67,7 +73,7 @@ public class Day20 implements DayX {
         }
 
         long low = lowPulsesBeforeLoop + lowPulsesPerLoop * numberOfLoops + lowPulsesOfLastLoop;
-        long high = highPulsesBeforeLoop + highPulsesPerLoop * numberOfLoops + highPulsesOfLastLoop;
+        long high = highPulsesBeforeLoop + highPulsesPerLoop * numberOfLoops + highPulsesOfLastLoop;*/
         System.out.println(low * high);
     }
 
@@ -77,6 +83,9 @@ public class Day20 implements DayX {
         String typeandname = splits[0];
         if (typeandname.startsWith("output")) {// dummy testing type
             return new Dummy("output");
+        }
+        if (typeandname.startsWith("rx")) {// dummy testing type
+            return new Dummy("rx");
         }
         if (typeandname.startsWith("broadcaster")) {
             return new Broadcaster(destinations);
