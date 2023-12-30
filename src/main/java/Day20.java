@@ -2,10 +2,7 @@ import utils.Parser;
 import utils.day20.*;
 import utils.day20.Module;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 20
@@ -29,7 +26,9 @@ public class Day20 implements DayX {
         int i = 0;
         String current = "";
         while (i < 200) {
-            current = "L" + process("broadcaster", "L", modules);
+            Queue<QueueElement> queue = new LinkedList<>();
+            queue.add(new QueueElement("broadcaster", "L"));
+            current = "L" + process(queue, modules);
             if (history.contains(current)) {
                 break;
             }
@@ -39,11 +38,36 @@ public class Day20 implements DayX {
 
         int startOfLoop = history.indexOf(current);
         int loopLength = i - startOfLoop;
-        int indexOfFinalLoop = startOfLoop + (1000 - startOfLoop) % loopLength;
-        String finalLoop = history.get(indexOfFinalLoop);
+        int numberOfLoops = (1000 - startOfLoop) / loopLength;
 
-        long low = finalLoop.chars().filter(ch -> ch == 'L').count();
-        long high = finalLoop.chars().filter(ch -> ch == 'H').count();
+        long lowPulsesBeforeLoop = 0;
+        long highPulsesBeforeLoop = 0;
+        for (int x = 0; x < startOfLoop; x++) {
+            String str = history.get(x);
+            lowPulsesBeforeLoop += getLowPulses(str);
+            highPulsesBeforeLoop += getHighPulses(str);
+        }
+
+        long lowPulsesPerLoop = 0;
+        long highPulsesPerLoop = 0;
+        for (int x = startOfLoop; x < i; x++) {
+            String str = history.get(x);
+            lowPulsesPerLoop += getLowPulses(str);
+            highPulsesPerLoop += getHighPulses(str);
+        }
+
+        int endOfLastLoop = (1000 - startOfLoop) % loopLength;
+
+        long lowPulsesOfLastLoop = 0;
+        long highPulsesOfLastLoop = 0;
+        for (int x = startOfLoop; x <= endOfLastLoop; x++) {
+            String str = history.get(x);
+            lowPulsesOfLastLoop += getLowPulses(str);
+            highPulsesOfLastLoop += getHighPulses(str);
+        }
+
+        long low = lowPulsesBeforeLoop + lowPulsesPerLoop * numberOfLoops + lowPulsesOfLastLoop;
+        long high = highPulsesBeforeLoop + highPulsesPerLoop * numberOfLoops + highPulsesOfLastLoop;
         System.out.println(low * high);
     }
 
@@ -51,7 +75,7 @@ public class Day20 implements DayX {
         String[] splits = str.split(" -> ");
         List<String> destinations = Arrays.asList(splits[1].split(", "));
         String typeandname = splits[0];
-        if(typeandname.startsWith("output")){// dummy testing type
+        if (typeandname.startsWith("output")) {// dummy testing type
             return new Dummy("output");
         }
         if (typeandname.startsWith("broadcaster")) {
@@ -63,76 +87,80 @@ public class Day20 implements DayX {
         }
     }
 
-    private String process(String currentModule, String pulse, Map<String, Module> modules) {
-        Module module = modules.get(currentModule);
-        switch (module.type) {
-            case DUMMY:
-                return "";
-            case BROADCASTER:
-                StringBuilder result = new StringBuilder();
-                for (String child : module.destinations) {
-                    result.append(pulse);
-                    updateConjunction(child, modules, pulse);
-                    result.append(process(child, pulse, modules));
-                }
-                return result.toString();
-            case FLIPFLOP:
-                StringBuilder r = new StringBuilder();
-                if (pulse.equals("L")) {
-                    if (((FlipFlop) module).isOn) {
-                        ((FlipFlop) module).isOn = false;
-                        for (String child : module.destinations) {
-                            r.append("L");
-                            updateConjunction(child, modules, "L");
-                            r.append(process(child, "L", modules));
+    private String process(Queue<QueueElement> queue, Map<String, Module> modules) {
+        StringBuilder result = new StringBuilder();
+        while (queue.peek() != null) {
+            QueueElement element = queue.poll();
+            String currentModule = element.moduleName;
+            String pulse = element.pulse;
+
+            Module module = modules.get(currentModule);
+            switch (module.type) {
+                case DUMMY:
+                    continue;
+                case BROADCASTER:
+                    for (String child : module.destinations) {
+                        result.append(pulse);
+                        updateConjunction(child, modules, pulse, currentModule);
+                        queue.offer(new QueueElement(child, pulse));
+                    }
+                    continue;
+                case FLIPFLOP:
+                    if (pulse.equals("L")) {
+                        String output;
+                        // if currently on, send H and turn off
+                        // if currently off, send L and turn on
+                        if (((FlipFlop) module).isOn) {
+                            ((FlipFlop) module).isOn = false;
+                            output = "L";
+                        } else {
+                            ((FlipFlop) module).isOn = true;
+                            output = "H";
                         }
-                    } else {
-                        ((FlipFlop) module).isOn = true;
+
                         for (String child : module.destinations) {
-                            r.append("H");
-                            updateConjunction(child, modules, "H");
-                            r.append(process(child, "H", modules));
+                            result.append(output);
+                            updateConjunction(child, modules, output, currentModule);
+                            queue.offer(new QueueElement(child, output));
                         }
                     }
-                    // if currently on, send H and turn off
-                    // if currently off, send L and turn on
-                }
-                return r.toString();
-            // do nothing if input is H
-            case CONJUNCTION:
-                // if not all parents updated yet, do nothing
-                // if all parents sent H, send L
-                // otherwise send H
-                StringBuilder r2 = new StringBuilder();
-                Conjunction m = ((Conjunction) module);
-                if (m.memory.size() == m.parents.size()) {
-                    if (m.memory.stream().allMatch(s -> s.equals("H"))) {
-                        for (String child : module.destinations) {
-                            r2.append("L");
-                            updateConjunction(child, modules, "L");
-                            r2.append(process(child, "L", modules));
-                        }
+                    // do nothing if input is H
+                    continue;
+                case CONJUNCTION:
+                    Conjunction m = ((Conjunction) module);
+                    String output;
+                    // if all parents sent H, send L
+                    // otherwise send H
+                    if (m.memory.values().stream().allMatch(s -> s.equals("H"))) {
+                        output = "L";
                     } else {
-                        for (String child : module.destinations) {
-                            r2.append("H");
-                            updateConjunction(child, modules, "H");
-                            r2.append(process(child, "H", modules));
-                        }
+                        output = "H";
                     }
-                    m.memory = new ArrayList<>();
-                    return r2.toString();
-                } else {
-                    return "";
-                }
+                    for (String child : module.destinations) {
+                        result.append(output);
+                        updateConjunction(child, modules, output, currentModule);
+                        queue.add(new QueueElement(child, output));
+                    }
+                    continue;
+            }
+            throw new RuntimeException("unknown module");
         }
-        throw new RuntimeException("unknown module");
+        return result.toString();
     }
 
-    private void updateConjunction(String name, Map<String, Module> modules, String pulse) {
+    private void updateConjunction(String name, Map<String, Module> modules, String pulse, String parent) {
         Module module = modules.get(name);
         if (module instanceof Conjunction) {
-            ((Conjunction) module).memory.add(pulse);
+            ((Conjunction) module).memory.put(parent, pulse);
         }
+    }
+
+    private long getLowPulses(String str) {
+        return str.chars().filter(ch -> ch == 'L').count();
+    }
+
+    private long getHighPulses(String str) {
+        return str.chars().filter(ch -> ch == 'H').count();
     }
 
 }
