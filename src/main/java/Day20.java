@@ -23,57 +23,19 @@ public class Day20 implements DayX {
         }
 
         // H = high, L = low
-        List<String> history = new ArrayList<>();
+        long low = 0;
+        long high = 0;
         int i = 0;
         String current = "";
-        int low = 0;
-        int high = 0;
         while (i < 1000) {
             Queue<QueueElement> queue = new LinkedList<>();
             queue.add(new QueueElement("broadcaster", "L"));
             current = "L" + process(queue, modules);
             low += getLowPulses(current);
             high += getHighPulses(current);
-            /*
-            if (history.contains(current)) {
-                break;
-            }*/
-            history.add(current);
             i++;
         }
 
-/*        int startOfLoop = history.indexOf(current);
-        int loopLength = i - startOfLoop;
-        int numberOfLoops = (1000 - startOfLoop) / loopLength;
-
-        long lowPulsesBeforeLoop = 0;
-        long highPulsesBeforeLoop = 0;
-        for (int x = 0; x < startOfLoop; x++) {
-            String str = history.get(x);
-            lowPulsesBeforeLoop += getLowPulses(str);
-            highPulsesBeforeLoop += getHighPulses(str);
-        }
-
-        long lowPulsesPerLoop = 0;
-        long highPulsesPerLoop = 0;
-        for (int x = startOfLoop; x < i; x++) {
-            String str = history.get(x);
-            lowPulsesPerLoop += getLowPulses(str);
-            highPulsesPerLoop += getHighPulses(str);
-        }
-
-        int endOfLastLoop = (1000 - startOfLoop) % loopLength;
-
-        long lowPulsesOfLastLoop = 0;
-        long highPulsesOfLastLoop = 0;
-        for (int x = startOfLoop; x <= endOfLastLoop; x++) {
-            String str = history.get(x);
-            lowPulsesOfLastLoop += getLowPulses(str);
-            highPulsesOfLastLoop += getHighPulses(str);
-        }
-
-        long low = lowPulsesBeforeLoop + lowPulsesPerLoop * numberOfLoops + lowPulsesOfLastLoop;
-        long high = highPulsesBeforeLoop + highPulsesPerLoop * numberOfLoops + highPulsesOfLastLoop;*/
         System.out.println(low * high);
     }
 
