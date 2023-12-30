@@ -57,7 +57,7 @@ public class Day8B implements DayX {
     }
 
 
-    private static long getLCM(long a, long b) {
+    public static long getLCM(long a, long b) {
         return (a * b) / getGCD(a, b);
     }
 
