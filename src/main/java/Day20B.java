@@ -5,7 +5,7 @@ import utils.day20.Module;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// 2023 puzzle 20
+// 2023 puzzle 20 part 2
 // note rx -> xx is added to the end of the input file to avoid NPE because rx is a dummy module type
 // rx is connected to &kj. Output of &kj should be L. Input of &KJ should be H.
 // Input of &kj comes from ln, dr, zx, vn.
@@ -14,24 +14,24 @@ public class Day20B implements DayX {
     @Override
     public void run() {
         List<String> input = Parser.parseInputAsString("day20.txt");
-        Map<String, Module> modules = input.stream()
-                .map(this::convertToModule)
-                .collect(Collectors.toMap(m -> m.name, m -> m));
-
-        for (Module module : modules.values()) {
-            module.destinations.stream()
-                    .filter(child -> modules.get(child).type == ModuleType.CONJUNCTION)
-                    .map(modules::get)
-                    .forEach(child -> ((Conjunction) child).addParent(module.name));
-        }
-
-        List<String> conjunctions = List.of("ln", "dr", "zx", "vn"); // can be found by code, but I identified these manually from the input file
+        List<String> conjunctions = List.of("ln", "dr", "zx", "vn"); // identified these manually from the input file
 
         // H = high, L = low
         List<Integer> buttonPressForEachConjunction = new ArrayList<>();
         for (String conjunction : conjunctions) {
+            Map<String, Module> modules = input.stream()
+                    .map(this::convertToModule)
+                    .collect(Collectors.toMap(m -> m.name, m -> m));
+
+            for (Module module : modules.values()) {
+                module.destinations.stream()
+                        .filter(child -> modules.get(child).type == ModuleType.CONJUNCTION)
+                        .map(modules::get)
+                        .forEach(child -> ((Conjunction) child).addParent(module.name));
+            }
+
             int i = 0;
-            while (i < 5000) {
+            while (true) {
                 Queue<QueueElement> queue = new LinkedList<>();
                 queue.add(new QueueElement("broadcaster", "L"));
                 String current = process(queue, modules, conjunction);
@@ -59,7 +59,7 @@ public class Day20B implements DayX {
         if (typeandname.startsWith("output")) {// dummy testing type
             return new Dummy("output");
         }
-        if (typeandname.startsWith("rx")) {// dummy testing type
+        if (typeandname.startsWith("rx")) {// dummy type
             return new Dummy("rx");
         }
         if (typeandname.startsWith("broadcaster")) {
