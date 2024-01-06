@@ -1,8 +1,8 @@
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Day21B day21 = new Day21B();
-        day21.run();
+        Day19B day19 = new Day19B();
+        day19.run();
     }
 
 }
