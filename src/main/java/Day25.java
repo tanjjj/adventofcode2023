@@ -15,12 +15,12 @@ public class Day25 implements DayX {
         for (String s : input) {
             String[] splits = s.split(": ");
             String vertex = splits[0];
-            List<String> adjacentVertices = Arrays.stream(splits[1].split(" "))
-                    .collect(Collectors.toList());
+            Set<String> adjacentVertices = Arrays.stream(splits[1].split(" "))
+                    .collect(Collectors.toSet());
             graph.addVertex(vertex, adjacentVertices);
 
             for (String adjacentVertex : adjacentVertices) {
-                graph.addVertex(adjacentVertex, List.of(vertex));
+                graph.addEdgeWeight(vertex, adjacentVertex);
             }
         }
 
@@ -53,10 +53,10 @@ public class Day25 implements DayX {
             String vertexWithMaxWeight = null;
             for (String vertex : visited) {
                 Set<String> adjacentVertices = graph.vertices.get(vertex);
-                for(String adjacentVertex : adjacentVertices){
-                    if(!visited.contains(adjacentVertex)){
+                for (String adjacentVertex : adjacentVertices) {
+                    if (!visited.contains(adjacentVertex)) {
                         int weight = graph.edgeWeight.get(vertex + "+" + adjacentVertex);
-                        if(maxWeight < weight){
+                        if (maxWeight < weight) {
                             maxWeight = weight;
                             vertexWithMaxWeight = adjacentVertex;
                         }
@@ -70,11 +70,24 @@ public class Day25 implements DayX {
 
         String vertexToCutOff = unvisited.iterator().next();
 
-        // merge the last 2 nodes, unvisted + lastPicked
-        // update graph
-        // update weight
+        // merge the last 2 nodes, unvisted and lastPicked
+        mergeVertices(vertexToCutOff, lastPicked, graph);
 
         int cutSize = graph.edgeWeight.get(vertexToCutOff + "+" + lastPicked);
         return cutSize;
+    }
+
+    private void mergeVertices(String vertexA, String vertexB, Graph graph) {
+        Set<String> adjacentVertices = graph.vertices.get(vertexA);
+        adjacentVertices.addAll(graph.vertices.get(vertexB));
+
+        graph.removeVertex(vertexA);
+        graph.removeVertex(vertexB);
+
+        String newVertex = vertexA + "-" + vertexB;
+        graph.addVertex(newVertex, adjacentVertices);
+        for(String a : adjacentVertices){
+            graph.addEdgeWeight(newVertex, a);
+        }
     }
 }
