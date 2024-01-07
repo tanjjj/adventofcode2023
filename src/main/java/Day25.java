@@ -1,12 +1,12 @@
 import utils.Parser;
 import utils.day25.Graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 25
+// Stoer–Wagner algorithm
+// https://www.youtube.com/watch?v=AtkEpr7dsW4
 public class Day25 implements DayX {
     @Override
     public void run() {
@@ -24,8 +24,57 @@ public class Day25 implements DayX {
             }
         }
 
+        int totalVertices = graph.vertices.size();
+        String start = "jqt"; // the first vertex from the input file, can be any vertex
+        //String start = "vtj"; // the first vertex from the input file, can be any vertex
 
+        int result = 0;
+        while (graph.vertices.size() > 1) {
+            int cutSize = nextPhase(graph, start);
+            if (cutSize == 3) {
+                int group1 = graph.vertices.size() - 1;
+                int group2 = totalVertices - group1;
+                result = group1 * group2;
+                break;
+            }
+        }
+
+        System.out.println(result);
     }
 
+    private int nextPhase(Graph graph, String start) {
+        Set<String> unvisited = new HashSet<>(graph.vertices.keySet());
+        Set<String> visited = new HashSet<>();
+        visited.add(start);
+        unvisited.removeAll(visited);
+        String lastPicked = null;
+        while (unvisited.size() > 1) {
+            int maxWeight = 0;
+            String vertexWithMaxWeight = null;
+            for (String vertex : visited) {
+                Set<String> adjacentVertices = graph.vertices.get(vertex);
+                for(String adjacentVertex : adjacentVertices){
+                    if(!visited.contains(adjacentVertex)){
+                        int weight = graph.edgeWeight.get(vertex + "+" + adjacentVertex);
+                        if(maxWeight < weight){
+                            maxWeight = weight;
+                            vertexWithMaxWeight = adjacentVertex;
+                        }
+                    }
+                }
+            }
+            lastPicked = vertexWithMaxWeight;
+            unvisited.remove(vertexWithMaxWeight);
+            visited.add(vertexWithMaxWeight);
+        }
 
+        String vertexToCutOff = unvisited.iterator().next();
+
+        // merge the last 2 nodes, unvisted + lastPicked
+        // update graph
+        // update weight
+
+        int cutSize = graph.edgeWeight.get(vertexToCutOff + "+" + lastPicked);
+        return cutSize;
+    }
 }
