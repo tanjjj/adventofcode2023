@@ -3,50 +3,48 @@ package utils.day25new;
 import java.util.*;
 
 public class Graph {
-    public Map<String, List<String>> adjVertices = new HashMap<>();
+    public Map<String, List<String>> vertices = new HashMap<>();
 
     public Graph() {
 
     }
 
-    public Graph(Map<String, List<String>> adjVertices) {
-        this.adjVertices = adjVertices;
+    public Graph(Map<String, List<String>> vertices) {
+        this.vertices = vertices;
     }
 
-    public void addVertex(String label) {
-        adjVertices.putIfAbsent(label, new ArrayList<>());
+    public String[] getVerticesAsArray(){
+        return vertices.keySet().toArray(new String[vertices.keySet().size()]);
     }
 
-    public void removeVertex(String label) {
-        adjVertices.values().forEach(e -> e.remove(label));
-        adjVertices.remove(label);
+    public void addVertex(String vertex) {
+        vertices.putIfAbsent(vertex, new ArrayList<>());
     }
 
-    public void addEdge(String label1, String label2) {
-        adjVertices.get(label1).add(label2);
-        adjVertices.get(label2).add(label1);
+    public void removeVertex(String vertex) {
+        vertices.values().forEach(e -> e.remove(vertex));
+        vertices.remove(vertex);
     }
 
-    public void removeEdge(String label1, String label2) {
-        List<String> eV1 = adjVertices.get(label1);
-        List<String> eV2 = adjVertices.get(label2);
-        if (eV1 != null)
-            eV1.remove(label2);
-        if (eV2 != null)
-            eV2.remove(label1);
+    public void addEdge(String v1, String v2) {
+        vertices.get(v1).add(v2);
+        vertices.get(v2).add(v1);
     }
 
     public List<String> getAdjVertices(String label) {
-        return adjVertices.get(label);
+        return vertices.get(label);
     }
 
     public void merge(String v1, String v2) {
-        // Remove the old edges between v1 and v2
-        removeEdge(v1, v2);
-        removeEdge(v2, v1);
+        List<String> eV1 = vertices.get(v2);
+        List<String> eV2 = vertices.get(v1);
+        if (eV1 != null)
+            eV1.remove(v1);
+        if (eV2 != null)
+            eV2.remove(v2);
         // Combines the other edges from v1 and v2 into one.
-        List<String> edges1 = adjVertices.get(v1);
-        List<String> edges2 = adjVertices.get(v2);
+        List<String> edges1 = vertices.get(v1);
+        List<String> edges2 = vertices.get(v2);
         Set<String> destinations = new HashSet<>();
         destinations.addAll(edges1);
         destinations.addAll(edges2);
@@ -57,7 +55,7 @@ public class Graph {
             addEdge(newLabel, e);
         }
         // Now remove every remaining reference to v1 or v2.
-        for (Map.Entry<String, List<String>> entry : adjVertices.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : vertices.entrySet()) {
             entry.getValue().remove(v1);
             entry.getValue().remove(v2);
         }
@@ -68,7 +66,7 @@ public class Graph {
 
     public Graph getCopy() {
         Map<String, List<String>> cmap = new HashMap<>();
-        cmap.putAll(adjVertices);
+        cmap.putAll(vertices);
         return new Graph(cmap);
     }
 }
