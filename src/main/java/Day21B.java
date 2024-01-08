@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // 2023 puzzle 21 part 2
+// https://github.com/villuna/aoc23/wiki/A-Geometric-solution-to-advent-of-code-2023,-day-21
 public class Day21B implements DayX {
     @Override
     public void run() {
