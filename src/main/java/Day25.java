@@ -26,8 +26,8 @@ public class Day25 implements DayX {
         }
 
         int totalVertices = graph.vertices.size();
-        String start = "jqt"; // the first vertex from the input file, can be any vertex
-        //String start = "vtj"; // the first vertex from the input file, can be any vertex
+        //String start = "jqt"; // the first vertex from the test input file, can be any vertex
+        String start = "vtj"; // the first vertex from the input file day25.txt, can be any vertex
 
         int result = 0;
         while (graph.vertices.size() > 1) {
