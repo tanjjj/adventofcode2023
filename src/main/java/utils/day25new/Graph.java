@@ -31,6 +31,9 @@ public class Graph {
     }
 
     public void merge(String v1, String v2) {
+        String newVertex = v1 + "-" + v2;
+        addVertex(newVertex);
+
         List<String> adj1 = vertices.get(v1);
         adj1.remove(v2);
         List<String> adj2 = vertices.get(v2);
@@ -38,12 +41,8 @@ public class Graph {
         Set<String> allAdjacentVertices = new HashSet<>();
         allAdjacentVertices.addAll(adj1);
         allAdjacentVertices.addAll(adj2);
+        allAdjacentVertices.forEach(a -> addEdge(newVertex, a));
 
-        String newVertex = v1 + "-" + v2;
-        addVertex(newVertex);
-        for (String adj : allAdjacentVertices) {
-            addEdge(newVertex, adj);
-        }
         // remove reference to v1 and v2.
         vertices.remove(v1);
         vertices.remove(v2);
