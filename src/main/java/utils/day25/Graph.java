@@ -20,12 +20,9 @@ public class Graph {
         }
     }
 
-    public void addEdgeWeight(String vertexA, String vertexB) {
-        // default value 1
-
-        // todo what should be the weight?
-        edgeWeight.put(vertexA + "+" + vertexB, 1);
-        edgeWeight.put(vertexB + "+" + vertexA, 1);
+    public void addEdgeWeight(String vertexA, String vertexB, int weight) {
+        edgeWeight.put(vertexA + "+" + vertexB, weight);
+        edgeWeight.put(vertexB + "+" + vertexA, weight);
     }
 
     public void removeVertex(String vertex) {

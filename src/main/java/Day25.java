@@ -1,5 +1,6 @@
 import utils.Parser;
 import utils.day25.Graph;
+import utils.day25.PhaseResult;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 public class Day25 implements DayX {
     @Override
     public void run() {
-        List<String> input = Parser.parseInputAsString("test.txt");
+        List<String> input = Parser.parseInputAsString("day25.txt");
         Graph graph = new Graph();
         for (String s : input) {
             String[] splits = s.split(": ");
@@ -20,7 +21,7 @@ public class Day25 implements DayX {
             graph.addVertex(vertex, adjacentVertices);
 
             for (String adjacentVertex : adjacentVertices) {
-                graph.addEdgeWeight(vertex, adjacentVertex);
+                graph.addEdgeWeight(vertex, adjacentVertex, 1);
             }
         }
 
@@ -30,9 +31,9 @@ public class Day25 implements DayX {
 
         int result = 0;
         while (graph.vertices.size() > 1) {
-            int cutSize = nextPhase(graph, start);
-            if (cutSize == 3) {
-                int group1 = graph.vertices.size() - 1;
+            PhaseResult phaseResult = nextPhase(graph, start);
+            if (phaseResult.cutSize == 3) {
+                int group1 = phaseResult.vertexToCutOff.split("-").length;
                 int group2 = totalVertices - group1;
                 result = group1 * group2;
                 break;
@@ -42,7 +43,7 @@ public class Day25 implements DayX {
         System.out.println(result);
     }
 
-    private int nextPhase(Graph graph, String start) {
+    private PhaseResult nextPhase(Graph graph, String start) {
         Set<String> unvisited = new HashSet<>(graph.vertices.keySet());
         Set<String> visited = new HashSet<>();
         visited.add(start);
@@ -70,24 +71,41 @@ public class Day25 implements DayX {
 
         String vertexToCutOff = unvisited.iterator().next();
 
+        int cutSize = 0;
+        for (String adj : graph.vertices.get(vertexToCutOff)) {
+            cutSize += graph.edgeWeight.get(vertexToCutOff + "+" + adj);
+        }
+
         // merge the last 2 nodes, unvisted and lastPicked
         mergeVertices(vertexToCutOff, lastPicked, graph);
+        System.out.println("vertexToCutOff " + vertexToCutOff);
 
-        int cutSize = graph.edgeWeight.get(vertexToCutOff + "+" + lastPicked);
-        return cutSize;
+        return new PhaseResult(vertexToCutOff, cutSize);
     }
 
     private void mergeVertices(String vertexA, String vertexB, Graph graph) {
-        Set<String> adjacentVertices = graph.vertices.get(vertexA);
-        adjacentVertices.addAll(graph.vertices.get(vertexB));
+        Set<String> adjacentVerticesA = graph.vertices.get(vertexA);
+        adjacentVerticesA.remove(vertexB);
+        Set<String> adjacentVerticesB = graph.vertices.get(vertexB);
+        adjacentVerticesB.remove(vertexA);
+        Set<String> allAdjacentVertices = new HashSet<>();
+        allAdjacentVertices.addAll(adjacentVerticesA);
+        allAdjacentVertices.addAll(adjacentVerticesB);
 
         graph.removeVertex(vertexA);
         graph.removeVertex(vertexB);
 
         String newVertex = vertexA + "-" + vertexB;
-        graph.addVertex(newVertex, adjacentVertices);
-        for(String a : adjacentVertices){
-            graph.addEdgeWeight(newVertex, a);
+        graph.addVertex(newVertex, allAdjacentVertices);
+        for (String a : adjacentVerticesA) {
+            int weight = graph.edgeWeight.get(vertexA + "+" + a);
+            weight += graph.edgeWeight.getOrDefault(vertexB + "+" + a, 0);
+            graph.addEdgeWeight(newVertex, a, weight);
+        }
+        adjacentVerticesB.removeAll(adjacentVerticesA);
+        for (String b : adjacentVerticesB) {
+            int weight = graph.edgeWeight.get(vertexB + "+" + b);
+            graph.addEdgeWeight(newVertex, b, weight);
         }
     }
 }
