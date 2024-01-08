@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 // 2023 puzzle 25
 // Stoer–Wagner algorithm
 // https://www.youtube.com/watch?v=AtkEpr7dsW4
+// issue: not result found, not all possibilities verified
 public class Day25 implements DayX {
     @Override
     public void run() {
