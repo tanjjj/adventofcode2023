@@ -13,7 +13,7 @@ public class Graph {
         this.vertices = vertices;
     }
 
-    public String[] getVerticesAsArray(){
+    public String[] getVerticesAsArray() {
         return vertices.keySet().toArray(new String[vertices.keySet().size()]);
     }
 
@@ -21,10 +21,6 @@ public class Graph {
         vertices.putIfAbsent(vertex, new ArrayList<>());
     }
 
-    public void removeVertex(String vertex) {
-        vertices.values().forEach(e -> e.remove(vertex));
-        vertices.remove(vertex);
-    }
 
     public void addEdge(String v1, String v2) {
         vertices.get(v1).add(v2);
@@ -48,21 +44,20 @@ public class Graph {
         Set<String> destinations = new HashSet<>();
         destinations.addAll(edges1);
         destinations.addAll(edges2);
-        // Build the new label
-        String newLabel = v1 + "-" + v2;
-        addVertex(newLabel);
+
+        String newVertex = v1 + "-" + v2;
+        addVertex(newVertex);
         for (String e : destinations) {
-            addEdge(newLabel, e);
+            addEdge(newVertex, e);
         }
         // Now remove every remaining reference to v1 or v2.
         for (Map.Entry<String, List<String>> entry : vertices.entrySet()) {
             entry.getValue().remove(v1);
             entry.getValue().remove(v2);
         }
-        removeVertex(v1);
-        removeVertex(v2);
+        vertices.remove(v1);
+        vertices.remove(v2);
     }
-
 
     public Graph getCopy() {
         Map<String, List<String>> cmap = new HashMap<>();

@@ -19,7 +19,7 @@ public class Day25new implements DayX {
                 long size1 = result.group1.split("-").length;
                 long size2 = result.group2.split("-").length;
                 System.out.println(size1 * size2);
-                return;
+                break;
             }
         }
     }
