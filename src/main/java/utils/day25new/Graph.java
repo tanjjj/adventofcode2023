@@ -45,18 +45,12 @@ public class Graph {
         for (String e : allEdges) {
             addEdge(newVertex, e);
         }
-        // remove reference to v1 or v2.
+        // remove reference to v1 and v2.
         vertices.remove(v1);
         vertices.remove(v2);
         for (Map.Entry<String, List<String>> entry : vertices.entrySet()) {
             entry.getValue().remove(v1);
             entry.getValue().remove(v2);
         }
-    }
-
-    public Graph getCopy() {
-        Map<String, List<String>> cmap = new HashMap<>();
-        cmap.putAll(vertices);
-        return new Graph(cmap);
     }
 }

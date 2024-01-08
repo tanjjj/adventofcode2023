@@ -2,9 +2,7 @@ import utils.Parser;
 import utils.day25new.Graph;
 import utils.day25new.Result;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 // 2023 puzzle 25
 // Karger's algorithm
@@ -41,9 +39,9 @@ public class Day25new implements DayX {
     }
 
     public Result karger(Graph graph) {
-        Graph originalGraph = graph.getCopy();
+        Graph originalGraph = new Graph(new HashMap<>(graph.vertices));
 
-        // combine random vertices until only two vertices left.
+        // combine vertices randomly until only two vertices left.
         while (graph.vertices.keySet().size() > 2) {
             Random random = new Random();
             int r1 = random.ints(0, graph.vertices.keySet().size()).findAny().getAsInt();
@@ -53,7 +51,7 @@ public class Day25new implements DayX {
             graph.merge(v1, v2);
         }
 
-        // count the number of edges which did exist in the original graph but do not exist in the current
+        // count the number of edges which existed in the original graph but not in the current graph
         String[] group1 = graph.getVerticesAsArray()[0].split("-");
         String[] group2 = graph.getVerticesAsArray()[1].split("-");
         long cuts = 0;
