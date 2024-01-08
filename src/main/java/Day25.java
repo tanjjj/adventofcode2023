@@ -38,6 +38,9 @@ public class Day25 implements DayX {
                 result = group1 * group2;
                 break;
             }
+            if (graph.vertices.size() == 2) {
+                break;
+            }
         }
 
         System.out.println(result);
@@ -76,9 +79,14 @@ public class Day25 implements DayX {
             cutSize += graph.edgeWeight.get(vertexToCutOff + "+" + adj);
         }
 
-        // merge the last 2 nodes, unvisted and lastPicked
-        mergeVertices(vertexToCutOff, lastPicked, graph);
-        System.out.println("vertexToCutOff " + vertexToCutOff);
+        if (lastPicked != null) {
+            // merge the last 2 nodes, unvisted and lastPicked
+            mergeVertices(vertexToCutOff, lastPicked, graph);
+            System.out.println("vertexToCutOff " + vertexToCutOff);
+            System.out.println("lastPicked " + lastPicked);
+            System.out.println("cutSize " + cutSize);
+            System.out.println();
+        }
 
         return new PhaseResult(vertexToCutOff, cutSize);
     }
