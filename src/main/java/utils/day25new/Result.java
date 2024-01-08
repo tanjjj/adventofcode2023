@@ -1,11 +1,13 @@
 package utils.day25new;
 
 public class Result {
-    public final int nrCuts;
-    public final long result;
+    public final int cuts;
+    public final String group1;
+    public final String group2;
 
-    public Result(int cuts, long result) {
-        this.nrCuts = cuts;
-        this.result = result;
+    public Result(int cuts, String group1, String group2) {
+        this.cuts = cuts;
+        this.group1 = group1;
+        this.group2 = group2;
     }
 }

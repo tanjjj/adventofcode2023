@@ -6,33 +6,32 @@ import java.util.List;
 import java.util.Random;
 
 // 2023 puzzle 25
-// randomly split the vertices into 2 sets and verify if we have 3 cuts
 public class Day25new implements DayX {
     @Override
     public void run() {
         List<String> input = Parser.parseInputAsString("day25.txt");
-
-        Result result;
-        while(true){
+        while (true) {
             Graph g = readGraph(input);
-            result = karger(g);
-            if(result.nrCuts == 3){
+            Result result = karger(g);
+            if (result.cuts == 3) {
+                long size1 = result.group1.split("-").length;
+                long size2 = result.group2.split("-").length;
+                System.out.println(size1 * size2);
                 break;
             }
         }
-
-        System.out.println(result.result);
     }
 
     private Graph readGraph(List<String> input) {
         Graph graph = new Graph();
-        for (String line : input) {
-            String start = line.substring(0, line.indexOf(":"));
-            String[] dests = line.substring(line.indexOf(":") + 2).split(" ");
-            graph.addVertex(start);
-            for (String dest : dests) {
+        for (String s : input) {
+            String[] splits = s.split(": ");
+            String vertex = splits[0];
+            String[] adjacent = splits[1].split(" ");
+            graph.addVertex(vertex);
+            for (String dest : adjacent) {
                 graph.addVertex(dest);
-                graph.addEdge(start, dest);
+                graph.addEdge(vertex, dest);
             }
         }
         return graph;
@@ -79,18 +78,6 @@ public class Day25new implements DayX {
             }
         }
 
-        long result = 0;
-        if (nrCuts == 3) {
-            // Number of cuts is 3, so store the result
-            long size1 = v1.split("-").length;
-            long size2 = v2.split("-").length;
-            result = size1 * size2;
-            System.out.println(v1);
-            System.out.println(v2);
-            System.out.println(size1);
-            System.out.println(size2);
-            System.out.println();
-        }
-        return new Result(nrCuts, result);
+        return new Result(nrCuts, v1, v2);
     }
 }

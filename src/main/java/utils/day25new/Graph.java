@@ -67,6 +67,8 @@ public class Graph {
 
 
     public Graph getCopy() {
-        return new Graph(new HashMap<>(adjVertices));
+        Map<String, List<String>> cmap = new HashMap<>();
+        cmap.putAll(adjVertices);
+        return new Graph(cmap);
     }
 }
