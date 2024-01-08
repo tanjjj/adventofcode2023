@@ -32,31 +32,26 @@ public class Graph {
     }
 
     public void merge(String v1, String v2) {
-        List<String> eV1 = vertices.get(v2);
-        List<String> eV2 = vertices.get(v1);
-        if (eV1 != null)
-            eV1.remove(v1);
-        if (eV2 != null)
-            eV2.remove(v2);
-        // Combines the other edges from v1 and v2 into one.
         List<String> edges1 = vertices.get(v1);
         List<String> edges2 = vertices.get(v2);
-        Set<String> destinations = new HashSet<>();
-        destinations.addAll(edges1);
-        destinations.addAll(edges2);
+        Set<String> allEdges = new HashSet<>();
+        allEdges.addAll(edges1);
+        allEdges.addAll(edges2);
+        allEdges.remove(v1);
+        allEdges.remove(v2);
 
         String newVertex = v1 + "-" + v2;
         addVertex(newVertex);
-        for (String e : destinations) {
+        for (String e : allEdges) {
             addEdge(newVertex, e);
         }
-        // Now remove every remaining reference to v1 or v2.
+        // remove reference to v1 or v2.
+        vertices.remove(v1);
+        vertices.remove(v2);
         for (Map.Entry<String, List<String>> entry : vertices.entrySet()) {
             entry.getValue().remove(v1);
             entry.getValue().remove(v2);
         }
-        vertices.remove(v1);
-        vertices.remove(v2);
     }
 
     public Graph getCopy() {
