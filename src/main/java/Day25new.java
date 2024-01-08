@@ -56,13 +56,13 @@ public class Day25new implements DayX {
         String[] group2 = graph.getVerticesAsArray()[1].split("-");
         long cuts = 0;
         for (String v1 : group1) {
-            List<String> adjacentVertices = originalGraph.getAdjVertices(v1);
+            List<String> adjacentVertices = originalGraph.getAdjacentVertices(v1);
             cuts += Arrays.stream(group2)
                     .filter(adjacentVertices::contains)
                     .count();
         }
         for (String v2 : group2) {
-            List<String> adjacentVertices2 = originalGraph.getAdjVertices(v2);
+            List<String> adjacentVertices2 = originalGraph.getAdjacentVertices(v2);
             cuts += Arrays.stream(group1)
                     .filter(adjacentVertices2::contains)
                     .count();
